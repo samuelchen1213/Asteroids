@@ -85,6 +85,9 @@
         if (ship.thrusting) {
           ship.thrust.x += (shipThrust * Math.cos(ship.a)) / FPS;
           ship.thrust.y -= (shipThrust * Math.sin(ship.a)) / FPS; // NOTE: minus is upwards on canvas
+        } else {
+          ship.thrust.x -= FPS(friction * ship.thrust.x) / FPS;
+          ship.thrust.y -= FPS(friction * ship.thrust.y) / FPS;
         }
         // Ship
         ctx.strokeStyle = 'white';
