@@ -64,7 +64,7 @@
           do {
             x = Math.floor(Math.random() * canv.width);
             y = Math.floor(Math.random() * canv.height);
-          } while (
+          } while ( // Ensures asteroids spawn far enough
             distBetweenPoints(ship.x, ship.y, x, y) <
             AST_SIZE * 2 + ship.r
           );
