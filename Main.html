@@ -1,3 +1,9 @@
+<!-- 
+    Welcome to my Javascript Asteroid game!
+    This project was made to test and strengthen my Javascript 
+    skills with the help of online tutorials and discussions.
+-->
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -12,6 +18,8 @@
       const FPS = 30; // Framerate
       const shipSize = 30; // Ship Height (pixels)
       const turnSpeed = 360; // Degrees per second
+      const shipThrust = 5; // Accelerations in px per second per second
+      const friction = 0.7; // Friction coeff in space (0 = no friction)
 
       /** @type {HTMLCanvasElement} */
       var canv = document.getElementById('gameCanvas');
@@ -21,7 +29,12 @@
         y: canv.height / 2,
         r: shipSize / 2,
         a: (90 / 180) * Math.PI, // Convert 90 degrees to rad
-        rot: 0 // Rotation
+        rot: 0, // Rotation
+        thrusting: false,
+        thrust: {
+          x: 0,
+          y: 0
+        }
       };
 
       // Set Event Handler
@@ -38,6 +51,7 @@
             break;
 
           case 38: // Up Arrow - Thrust forward
+            ship.thrusting = true;
             break;
 
           case 39: // Right Arrow - Rotate Right
@@ -54,6 +68,7 @@
             break;
 
           case 38: // Up Arrow - Stop thrust
+            ship.thrusting = false;
             break;
 
           case 39: // Right Arrow - Stop rotating right
@@ -66,6 +81,11 @@
         // Background
         ctx.fillStyle = 'black';
         ctx.fillRect(0, 0, canv.width, canv.height);
+        // Thrust
+        if (ship.thrusting) {
+          ship.thrust.x += (shipThrust * Math.cos(ship.a)) / FPS;
+          ship.thrust.y -= (shipThrust * Math.sin(ship.a)) / FPS; // NOTE: minus is upwards on canvas
+        }
         // Ship
         ctx.strokeStyle = 'white';
         ctx.lineWidth = shipSize / 20;
@@ -91,6 +111,8 @@
         // Ship Rotation
         ship.a += ship.rot;
         // Ship Movement
+        ship.x += ship.thrust.x;
+        ship.y += ship.thrust.y;
         // Centre of Ship (For Testing Purposes)
         ctx.fillStyle = 'red';
         ctx.fillRect(ship.x - 1, ship.y - 1, 2, 2);
