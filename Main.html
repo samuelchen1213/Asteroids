@@ -35,16 +35,27 @@
         ctx.beginPath();
         ctx.moveTo(
           // Tip of the ship
-          ship.x + ship.r * Math.cos(ship.a), // cos is for horizontal
-          ship.y - ship.r * Math.sin(ship.a) // sin for vertical
+          ship.x + (4 / 3) * ship.r * Math.cos(ship.a), // cos is for horizontal
+          ship.y - (4 / 3) * ship.r * Math.sin(ship.a) // sin for vertical
         );
         ctx.lineTo(
-          ship.x - ship.r * (Math.cos(ship.a) + Math.sin(ship.a)), // cos is for horizontal
-          ship.y + ship.r * (Math.sin(ship.a) - Math.cos(ship.a))
+          // Bottom left of ship
+          ship.x - ship.r * ((2 / 3) * Math.cos(ship.a) + Math.sin(ship.a)),
+          ship.y + ship.r * ((2 / 3) * Math.sin(ship.a) - Math.cos(ship.a))
         );
+        ctx.lineTo(
+          // Bottom right of ship
+          ship.x - ship.r * ((2 / 3) * Math.cos(ship.a) - Math.sin(ship.a)),
+          ship.y + ship.r * ((2 / 3) * Math.sin(ship.a) + Math.cos(ship.a))
+        );
+        ctx.closePath(); // Complete Triangle
         ctx.stroke();
+
         // Ship Rotation
         // Ship Movement
+        // Centre of Ship (For Testing Purposes)
+        ctx.fillStyle = 'red';
+        ctx.fillRect(ship.x - 1, ship.y - 1, 2, 2);
       }
     </script>
   </body>
